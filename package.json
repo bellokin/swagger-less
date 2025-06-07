@@ -1,0 +1,25 @@
+{
+  "name": "swagger-less",
+  "version": "1.0.0",
+  "main": "index.js",
+   "scripts": {
+    "dev": "nodemon bin/swagger-less.js -i ./src/example.js",
+    "start": "node server.js",
+    "generate-docs": "node bin/swagger-less.js -i ./src/routes.js -o ./src/routes.documented.js"
+  },
+  "bin": {
+    "swagger-less": "./bin/swagger-less.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "acorn": "^8.14.1",
+    "acorn-walk": "^8.3.4",
+    "commander": "^14.0.0"
+  }
+}
