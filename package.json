@@ -2,7 +2,7 @@
   "name": "swagger-less",
   "version": "1.0.0",
   "main": "index.js",
-   "scripts": {
+  "scripts": {
     "dev": "nodemon bin/swagger-less.js -i ./src/example.js",
     "start": "node server.js",
     "generate-docs": "node bin/swagger-less.js -i ./src/routes.js -o ./src/routes.documented.js"
@@ -20,6 +20,8 @@
   "dependencies": {
     "acorn": "^8.14.1",
     "acorn-walk": "^8.3.4",
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "express": "^5.1.0",
+    "swagger-ui-express": "^5.0.1"
   }
 }
