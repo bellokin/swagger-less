@@ -1,3 +1,5 @@
+const { registerRoute } = require('./swaggerStore');
+
 class SwaggerBuilder {
   constructor(method, path) {
     this.method = method;
@@ -10,7 +12,6 @@ class SwaggerBuilder {
       responses: {}
     };
   }
-
   summary(text) {
     this.config.summary = text;
     return this;
@@ -72,12 +73,12 @@ class SwaggerBuilder {
     this.config.responses[code] = response;
     return this;
   }
-
-  build() {
-    return (req, res, next) => next(); // Middleware that does nothing
+ build() {
+    // Register this route for internal swagger merging
+    registerRoute(this);
+    return (req, res, next) => next();
   }
 
-  // For parser access
   getConfig() {
     return {
       method: this.method,
@@ -85,6 +86,7 @@ class SwaggerBuilder {
       config: this.config
     };
   }
+
 }
 
 function swaggerless(method, path) {
