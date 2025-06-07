@@ -6,14 +6,23 @@ class SwaggerBuilder {
     this.path = path;
     this.config = {
       summary: '',
+      description: '',
       tags: [],
       params: [],
       requestBody: null,
-      responses: {}
+      responses: {},
+      deprecated: false,       // added deprecated flag
+      security: []             // added security array
     };
   }
+
   summary(text) {
     this.config.summary = text;
+    return this;
+  }
+
+  description(text) {
+    this.config.description = text;
     return this;
   }
 
@@ -55,7 +64,7 @@ class SwaggerBuilder {
 
   response(code, schema, description = '') {
     const response = { description };
-    
+
     if (schema) {
       response.content = {
         'application/json': {
@@ -69,11 +78,33 @@ class SwaggerBuilder {
         }
       };
     }
-    
+
     this.config.responses[code] = response;
     return this;
   }
- build() {
+
+  deprecated() {
+    this.config.deprecated = true;
+    return this;
+  }
+
+  /**
+   * Add security requirements.
+   * 
+   * Example:
+   *   .security([{ bearerAuth: [] }])
+   *   .security([{ apiKeyAuth: [] }])
+   * 
+   * @param {Array<Object>} securityArr
+   */
+  security(securityArr) {
+    if (Array.isArray(securityArr)) {
+      this.config.security = securityArr;
+    }
+    return this;
+  }
+
+  build() {
     // Register this route for internal swagger merging
     registerRoute(this);
     return (req, res, next) => next();
@@ -86,7 +117,6 @@ class SwaggerBuilder {
       config: this.config
     };
   }
-
 }
 
 function swaggerless(method, path) {
